@@ -48,6 +48,7 @@ export async function addPlayerScore(playerName: string, score: number) {
 
 export async function getPlayerScores(page: number) {
     const playerScores = await PlayerScore.findAll({
+        attributes: ['playerName', 'playerScore'],
         order: [
             ['playerScore', 'DESC'],
         ],
@@ -59,6 +60,6 @@ export async function getPlayerScores(page: number) {
 
 export async function getPagesCount() {
     const count = await PlayerScore.count();
-    return count / 10 + 1;
+    return Math.floor(count / 10 + 1);
 }
 
