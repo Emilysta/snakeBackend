@@ -20,7 +20,7 @@ app.post('/score',
     async (req: Request, res: Response) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.json(400).json({ errors: errors.array() });
+            return res.status(400).json({ errors: errors.array() });
         }
 
         const playerScore = req.body as PlayerScore;
@@ -34,18 +34,14 @@ app.get('/scores/:page',
     async (req: Request, res: Response) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.json(400).json({ errors: errors.array() });
+            return res.status(400).json({ errors: errors.array() });
         }
         const pageNumber = parseInt(req.params.page);
         const pageContent = await db.getPlayerScores(pageNumber);
-        return res.json({ pageNumber: pageNumber, scores: pageContent });
+        const count = await db.getPagesCount();
+        return res.json({ pageNumber: pageNumber, scores: pageContent, pagesCount: count });
     });
 
-app.get('/scores/pages', async (req: Request, res: Response) => {
-    const count = await db.getPagesCount();
-    return res.json({ pagesCount: count });
-});
-
-app.listen(3000, () => {
-    console.log(`Example app listening on port 3000`)
+app.listen(8100, () => {
+    console.log(`Example app listening on port 8100`)
 });
