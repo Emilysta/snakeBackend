@@ -42,6 +42,7 @@ app.get('/scores/:page',
         return res.json({ pageNumber: pageNumber, scores: pageContent, pagesCount: count });
     });
 
-app.listen(8100, () => {
+app.listen(8100, async () => {
+    await db.initDatabase();
     console.log(`Example app listening on port 8100`)
 });

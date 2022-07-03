@@ -33,6 +33,10 @@ PlayerScore.init(
     }
 )
 
+export async function initDatabase() {
+    await sequelize.sync({ force: true });
+}
+
 export async function addPlayerScore(playerName: string, score: number) {
     const playerScore = await PlayerScore.create({
         playerName: playerName,
@@ -45,11 +49,11 @@ export async function addPlayerScore(playerName: string, score: number) {
 export async function getPlayerScores(page: number) {
     const playerScores = await PlayerScore.findAll({
         order: [
-            ['score', 'DESC'],
+            ['playerScore', 'DESC'],
         ],
         offset: (page - 1) * 10,
         limit: 10
-    })
+    });
     return playerScores;
 }
 
