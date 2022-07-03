@@ -34,7 +34,7 @@ PlayerScore.init(
 )
 
 export async function initDatabase() {
-    await sequelize.sync({ force: true });
+    await sequelize.sync();
 }
 
 export async function addPlayerScore(playerName: string, score: number) {
